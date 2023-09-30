@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "635344769255",
+    "project_id": "logapp-d3795",
+    "storage_bucket": "logapp-d3795.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635344769255:android:816b046b96330225691242",
+        "android_client_info": {
+          "package_name": "com.tawfeeq.logapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqxvvPvOMCFAPxBHUaUiPg2R3GQrmPEN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
