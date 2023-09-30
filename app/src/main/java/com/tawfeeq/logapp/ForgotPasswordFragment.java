@@ -16,19 +16,18 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LogInFragment#newInstance} factory method to
+ * Use the {@link ForgotPasswordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LogInFragment extends Fragment {
+public class ForgotPasswordFragment extends Fragment {
 
-    private EditText EMail,Password;
-    private TextView SignUpLink, ForgotPass;
-    private Button LogIn;
-    private FireBaseServices fbs;
+    FireBaseServices fbs;
+    EditText ResetMail;
+    Button Reset;
+    TextView Login;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +38,7 @@ public class LogInFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public LogInFragment() {
+    public ForgotPasswordFragment() {
         // Required empty public constructor
     }
 
@@ -49,11 +48,11 @@ public class LogInFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LogInFragment.
+     * @return A new instance of fragment ForgotPasswordFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LogInFragment newInstance(String param1, String param2) {
-        LogInFragment fragment = new LogInFragment();
+    public static ForgotPasswordFragment newInstance(String param1, String param2) {
+        ForgotPasswordFragment fragment = new ForgotPasswordFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,71 +73,49 @@ public class LogInFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_log_in, container, false);
+        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        // Connecting Components (FireBase, btn, Email, Password)
+        // Connecting Components (FireBase, btn, Email)
         fbs=FireBaseServices.getInstance();
-        EMail =getView().findViewById(R.id.etLoginMail);
-        Password= getView().findViewById(R.id.etLoginPass);
-        SignUpLink=getView().findViewById(R.id.tvSignup);
-        SignUpLink.setOnClickListener(new View.OnClickListener() {
+        ResetMail =getView().findViewById(R.id.etResetViaMail);
+        Login=getView().findViewById(R.id.tvLoginForgot);
+        Login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                GoToSignupFragment();
-            }
-        });
-        ForgotPass=getView().findViewById(R.id.tvForgotPass);
-        ForgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {GoToForgotPasswordFragment();}
+            public void onClick(View view) {GoToLoginFragment();}
         });
 
-        LogIn=getView().findViewById(R.id.btnLogin);
-        LogIn.setOnClickListener(new View.OnClickListener() {
+        Reset=getView().findViewById(R.id.btnReset);
+        Reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Data Validation ( The Given Info is Correct )
-                String username = EMail.getText().toString();
-                String pass = Password.getText().toString();
-                if(username.trim().isEmpty() && pass.trim().isEmpty()){
-                    Toast.makeText(getActivity(), "Some Field Are Missing!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Log In Procedure
-                fbs.getAuth().signInWithEmailAndPassword(username, pass).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                fbs.getAuth().sendPasswordResetEmail(ResetMail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful())
                         {
                             // To DO
-                            Toast.makeText(getActivity(), "Log In Successful!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "An Email has been Sent, Check Your Inbox", Toast.LENGTH_LONG).show();
 
                         }
                         else
                         {
                             // To DO
-                            Toast.makeText(getActivity(), "Log In Failed!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Sending Failed, Check the Email Address You Entered", Toast.LENGTH_LONG).show();
 
                         }
-
                     }
                 });
             }
         });
     }
-    private void GoToSignupFragment() {
+
+    private void GoToLoginFragment() {
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.FrameLayoutMain, new SignUpFragment());
-        ft.commit();
-    }
-    private void GoToForgotPasswordFragment() {
-        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.FrameLayoutMain, new ForgotPasswordFragment());
+        ft.replace(R.id.FrameLayoutMain, new LogInFragment());
         ft.commit();
     }
 }
