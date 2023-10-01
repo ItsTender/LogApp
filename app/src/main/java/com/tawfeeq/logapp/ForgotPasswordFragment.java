@@ -98,7 +98,7 @@ public class ForgotPasswordFragment extends Fragment {
                         if(task.isSuccessful())
                         {
                             // To DO
-                            Toast.makeText(getActivity(), "An Email has been Sent, Check Your Inbox", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Password Reset Email has been Sent, Check Your Inbox to Change Your Password", Toast.LENGTH_LONG).show();
 
                         }
                         else

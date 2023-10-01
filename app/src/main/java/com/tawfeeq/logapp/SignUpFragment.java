@@ -112,6 +112,7 @@ public class SignUpFragment extends Fragment {
                         {
                             // To DO
                             Toast.makeText(getActivity(), "Sign Up Successful!", Toast.LENGTH_LONG).show();
+                            GoToLoginFragment();
                         }
                         else
                         {

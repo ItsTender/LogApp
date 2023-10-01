@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.ConditionVariable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,7 @@ public class LogInFragment extends Fragment {
                         {
                             // To DO
                             Toast.makeText(getActivity(), "Log In Successful!", Toast.LENGTH_LONG).show();
+                            sendDataGoToMain();
 
                         }
                         else
@@ -139,6 +141,18 @@ public class LogInFragment extends Fragment {
     private void GoToForgotPasswordFragment() {
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.FrameLayoutMain, new ForgotPasswordFragment());
+        ft.commit();
+    }
+    private void sendDataGoToMain(){
+        String M="";
+        M= EMail.getText().toString();
+
+        Fragment gtn=new GuessTheNumberFragment();
+        Bundle bundle= new Bundle();
+        bundle.putString("User",M);
+        gtn.setArguments(bundle);
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.FrameLayoutMain, gtn);
         ft.commit();
     }
 }
