@@ -99,7 +99,7 @@ public class SignUpFragment extends Fragment {
                 // Data Validation ( The Given Info is Correct )
                 String username = EMail.getText().toString();
                 String pass = Password.getText().toString();
-                if(username.trim().isEmpty() && pass.trim().isEmpty()){
+                if(username.trim().isEmpty() || pass.trim().isEmpty()){
                     Toast.makeText(getActivity(), "Some Field Are Missing!", Toast.LENGTH_SHORT).show();
                     return;
                 }

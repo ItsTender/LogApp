@@ -92,6 +92,14 @@ public class ForgotPasswordFragment extends Fragment {
         Reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                {
+                    // Data Validation ( The Given Info is Correct )
+                    String Mail = ResetMail.getText().toString();
+                    if (Mail.trim().isEmpty()) {
+                        Toast.makeText(getActivity(), "Some Field Are Missing!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 fbs.getAuth().sendPasswordResetEmail(ResetMail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

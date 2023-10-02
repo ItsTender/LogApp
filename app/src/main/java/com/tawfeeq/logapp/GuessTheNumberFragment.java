@@ -3,6 +3,7 @@ package com.tawfeeq.logapp;
 import android.content.ClipData;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -28,7 +29,7 @@ public class GuessTheNumberFragment extends Fragment {
 
     TextView Log;
     EditText Number;
-    Button Guess;
+    Button Guess,logout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,20 +95,39 @@ public class GuessTheNumberFragment extends Fragment {
 
         Number= getView().findViewById(R.id.etNumber);
         Guess= getView().findViewById(R.id.btnGuess);
+        logout=getView().findViewById(R.id.btnlogout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoToLoginFragment();
+            }
+        });
         Guess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Data Validation ( The Given Info is Correct )
                 String num = Number.getText().toString();
-                int n = Integer.parseInt(num);
-                Random rnd = new Random();
-                int x = rnd.nextInt(10);
-                if (x == n)
-                    Toast.makeText(getActivity(), "Your Guess Is Correct " + x, Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getActivity(), "Your Guess Is Incorrect " + x, Toast.LENGTH_SHORT).show();
+                if(!num.isEmpty())
+                {
+                    int n = Integer.parseInt(num);
+                    Random rnd = new Random();
+                    int x = rnd.nextInt(10);
+                    if(n>10) Toast.makeText(getActivity(), "The Number Is Out Of The Game's Boundaries", Toast.LENGTH_SHORT).show();
+                    else {
+                        if (x == n)
+                            Toast.makeText(getActivity(), "Your Guess Is Correct " + x, Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(getActivity(), "Your Guess Is Incorrect " + x, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else Toast.makeText(getActivity(), "Enter a Number!", Toast.LENGTH_SHORT).show();
                 return;
             }
         });
+    }
+
+    private void GoToLoginFragment() {
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.FrameLayoutMain, new LogInFragment());
+        ft.commit();
     }
 }
